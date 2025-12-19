@@ -1,0 +1,107 @@
+class Game {
+    field Board board;
+    field char  side;   
+
+    constructor Game new() {
+        let board = Board.new();
+        let side  = 79;      
+        return this;
+    }
+
+    method void dispose() {
+        do board.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+    method void flip() {
+        if (side = 79) {
+            let side = 88;
+        } else {
+            let side = 79;
+        }
+        return;
+    }
+    
+    method int pickFree() {
+        var int p;
+        let p = 1;
+        while (~(p > 9)) {
+            if (board.allowed(p)) {
+                return p;
+            }
+            let p = p + 1;
+        }
+        return 0;
+    }
+
+    method void start() {
+        var boolean done;
+        var int move;
+
+        let done = false;
+
+        while (~done) {
+            do Screen.clearScreen();
+            do board.print();
+            do Output.moveCursor(15, 0);
+            if (board.isFull()) {
+                do Output.printString("The game is a draw!");
+                do Output.println();
+                let done = true;
+            } else {
+                if (side = 79) {
+                    do Output.printString("Your move (1-9): ");
+                    let move = Keyboard.readInt("");
+                    while ((move < 1) | (move > 9) | (~board.allowed(move))) {
+                        do Output.moveCursor(15, 0);
+                        do Output.printString("Invalid. Enter 1..9: ");
+                        do Output.moveCursor(15, 0);
+                        do Output.printString("Invalid. Enter 1..9: ");
+                        let move = Keyboard.readInt("");
+                    }
+                    do board.turn(move, side);
+                } else {
+                    let move = pickFree();
+                    if (move = 0) {
+                        do Output.printString("The game is a draw!");
+                        do Output.println();
+                        let done = true;
+                    } else {
+                        do Sys.wait(300);
+                        do Output.printString("Computer chose ");
+                        do Output.printInt(move);
+                        do Output.println();
+                        do board.turn(move, side);
+                    }
+                }
+
+                if (~done) {
+                    if (board.isWin(side)) {
+                        do Screen.clearScreen();
+                        do board.print();
+                        do Output.moveCursor(15, 0);
+                        do Output.printString("Player '");
+                        do Output.printChar(side);
+                        do Output.printString("' wins!");
+                        do Output.println();
+                        let done = true;
+                    } else {
+                        if (board.isFull()) {
+                            do Screen.clearScreen();
+                            do board.print();
+                            do Output.moveCursor(15, 0);
+                            do Output.printString("The game is a draw!");
+                            do Output.println();
+                            let done = true;
+                        } else {
+                            do flip();
+                        }
+                    }
+                }
+            }
+        }
+
+        return;
+    }
+}
+

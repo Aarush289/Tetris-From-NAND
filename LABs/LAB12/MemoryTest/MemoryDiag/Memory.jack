@@ -1,0 +1,73 @@
+class Memory{
+    static Array heap;
+    static Array ram;
+    static int freeList;
+    function void init(){
+        let ram = 0;
+        let heap = 2048;
+        let freeList = heap;
+        let heap[0]= 0;
+        let heap[1]= 14334;
+        return;
+    }
+    function void poke( int address , int value){
+        let ram[address] = value;
+        return ;
+    }
+    function int peek ( int address){
+        return ram[address];
+    }
+    function int alloc(int size){
+        var int useable_size , curr_block ,prev_block , new_block , remaining_size;
+        let curr_block  = freeList;
+        let prev_block =0;
+        while(~(curr_block=0)){
+            let useable_size = Memory.peek(curr_block+1);
+            if(~(useable_size < size)){
+                let remaining_size = useable_size-size;
+                if(~(remaining_size<2)){
+                    let new_block = curr_block+2+size;
+                    do Memory.poke( new_block , Memory.peek(curr_block));
+                    do Memory.poke (new_block+1 , remaining_size-2);
+                    do Memory.poke ( curr_block+1 , size);
+                    if(prev_block=0){
+                        let freeList = new_block;
+                    }
+                    else{
+                        do Memory.poke(prev_block , new_block);
+                    }
+                }
+                else{
+                    do Memory.poke(curr_block+1 , size);
+                    if(prev_block=0){
+                        let freeList = Memory.peek(curr_block);
+                    }
+                    else{
+                        do Memory.poke(prev_block , Memory.peek(curr_block));
+                    }
+                }
+                return curr_block+2;
+            }
+            let prev_block = curr_block;
+            let curr_block = Memory.peek( curr_block);
+        }
+        do Sys.error(1);
+        return 1;
+    }
+    function void deAlloc(Array arr){
+        var int last;
+        do Memory.poke( arr-2 , 0);
+        if(freeList=0){
+            let freeList = arr-2;
+        }
+        else{
+            let last  = freeList;
+            while(~(Memory.peek(last)=0)){
+                let last = Memory.peek(last);
+            }
+            do Memory.poke(last , arr-2);
+        }
+        return;
+    }
+
+}

@@ -1,0 +1,509 @@
+function Board.new 1
+push constant 1
+call Memory.alloc 1
+pop pointer 0
+push constant 9
+call Array.new 1
+pop this 0
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 9
+lt
+not
+if-goto WHILE_END0
+push local 0
+push this 0
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push pointer 0
+return
+function Board.dispose 0
+push argument 0
+pop pointer 0
+push this 0
+call Array.dispose 1
+pop temp 0
+push constant 0
+return
+function Board.print 8
+push argument 0
+pop pointer 0
+push constant 30
+pop local 0
+push constant 20
+pop local 4
+label WHILE_EXP0
+push local 4
+push constant 20
+push constant 3
+push local 0
+call Math.multiply 2
+add
+gt
+not
+not
+if-goto WHILE_END0
+push constant 20
+push local 4
+push constant 20
+push constant 3
+push local 0
+call Math.multiply 2
+add
+push local 4
+push constant 1
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 4
+push local 0
+add
+pop local 4
+goto WHILE_EXP0
+label WHILE_END0
+push constant 20
+pop local 3
+label WHILE_EXP1
+push local 3
+push constant 20
+push constant 3
+push local 0
+call Math.multiply 2
+add
+gt
+not
+not
+if-goto WHILE_END1
+push local 3
+push constant 20
+push local 3
+push constant 1
+add
+push constant 20
+push constant 3
+push local 0
+call Math.multiply 2
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 3
+push local 0
+add
+pop local 3
+goto WHILE_EXP1
+label WHILE_END1
+push constant 0
+pop local 1
+label WHILE_EXP2
+push local 1
+push constant 3
+lt
+not
+if-goto WHILE_END2
+push constant 0
+pop local 2
+label WHILE_EXP3
+push local 2
+push constant 3
+lt
+not
+if-goto WHILE_END3
+push constant 20
+push local 2
+push local 0
+call Math.multiply 2
+add
+push local 0
+push constant 2
+call Math.divide 2
+add
+push constant 4
+sub
+pop local 3
+push constant 20
+push local 1
+push local 0
+call Math.multiply 2
+add
+push local 0
+push constant 2
+call Math.divide 2
+add
+push constant 6
+sub
+pop local 4
+push local 4
+push constant 11
+call Math.divide 2
+pop local 5
+push local 3
+push constant 8
+call Math.divide 2
+pop local 6
+push local 5
+push local 6
+call Output.moveCursor 2
+pop temp 0
+push local 1
+push constant 3
+call Math.multiply 2
+push local 2
+add
+push this 0
+add
+pop pointer 1
+push that 0
+pop local 7
+push local 7
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 1
+push constant 3
+call Math.multiply 2
+push local 2
+add
+push constant 1
+add
+call Output.printInt 1
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+push local 7
+call Output.printChar 1
+pop temp 0
+label IF_END0
+push local 2
+push constant 1
+add
+pop local 2
+goto WHILE_EXP3
+label WHILE_END3
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP2
+label WHILE_END2
+push constant 0
+return
+function Board.turn 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 1
+sub
+push this 0
+add
+push argument 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+return
+function Board.allowed 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 1
+sub
+push this 0
+add
+pop pointer 1
+push that 0
+push constant 0
+eq
+return
+function Board.isFull 1
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 9
+lt
+not
+if-goto WHILE_END0
+push local 0
+push this 0
+add
+pop pointer 1
+push that 0
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+not
+return
+function Board.isWin 0
+push argument 0
+pop pointer 0
+push constant 0
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+push constant 1
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+push constant 2
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+return
+label IF_FALSE0
+push constant 3
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+push constant 4
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+push constant 5
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+not
+return
+label IF_FALSE1
+push constant 6
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+push constant 7
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+push constant 8
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+not
+return
+label IF_FALSE2
+push constant 0
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+push constant 3
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+push constant 6
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+not
+return
+label IF_FALSE3
+push constant 1
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+push constant 4
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+push constant 7
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 0
+not
+return
+label IF_FALSE4
+push constant 2
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+push constant 5
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+push constant 8
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push constant 0
+not
+return
+label IF_FALSE5
+push constant 0
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+push constant 4
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+push constant 8
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push constant 0
+not
+return
+label IF_FALSE6
+push constant 2
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+push constant 4
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+push constant 6
+push this 0
+add
+pop pointer 1
+push that 0
+push argument 1
+eq
+and
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push constant 0
+not
+return
+label IF_FALSE7
+push constant 0
+return

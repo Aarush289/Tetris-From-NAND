@@ -1,0 +1,104 @@
+class Board {
+    field Array cells;     
+
+    constructor Board new() {
+        var int i;
+        let cells = Array.new(9);
+        let i = 0;
+        while (i < 9) {
+            let cells[i] = 0;     
+            let i = i + 1;
+        }
+        return this;
+    }
+
+    method void dispose() {
+        do Array.dispose(cells);  
+        return;
+    }
+    
+    method void print() {
+        var int size, i, j;
+        var int px, py, row, col;
+        var int val;
+
+        let size = 30;  
+
+        let py = 20;
+        while (~(py > (20 + (3 * size)))) {
+            do Screen.drawRectangle(20, py, 20 + (3 * size), py + 1);
+            let py = py + size;
+        }
+
+        let px = 20;
+        while (~(px > (20 + (3 * size)))) {
+            do Screen.drawRectangle(px, 20, px + 1, 20 + (3 * size));
+            let px = px + size;
+        }
+
+       
+        let i = 0;
+        while (i < 3) {
+            let j = 0;
+            while (j < 3) {
+               
+                let px = 20 + (j * size) + (size / 2) - 4;
+                let py = 20 + (i * size) + (size / 2) - 6;
+                let row = py / 11; 
+                let col = px / 8;    
+
+                do Output.moveCursor(row, col);
+
+                let val = cells[(i * 3) + j];
+                if (val = 0) {
+                    do Output.printInt(((i * 3) + j) + 1);
+                } else {  
+                    do Output.printChar(val);
+                }
+
+                let j = j + 1;
+            }
+            let i = i + 1;
+        }
+
+        return;
+    }
+
+    method void turn(int pos, char p) {
+        let cells[pos - 1] = p;
+        return;
+    }
+
+    method boolean allowed(int pos) {
+        return (cells[pos - 1] = 0);
+    }
+
+    method boolean isFull() {
+        var int k;
+        let k = 0;
+        while (k < 9) {
+            if (cells[k] = 0) {
+                return false;
+            }
+            let k = k + 1;
+        }
+        return true;
+    }
+    
+    method boolean isWin(char p) {
+        // rows
+        if ((cells[0] = p) & (cells[1] = p) & (cells[2] = p)) { return true; }
+        if ((cells[3] = p) & (cells[4] = p) & (cells[5] = p)) { return true; }
+        if ((cells[6] = p) & (cells[7] = p) & (cells[8] = p)) { return true; }
+        // cols
+        if ((cells[0] = p) & (cells[3] = p) & (cells[6] = p)) { return true; }
+        if ((cells[1] = p) & (cells[4] = p) & (cells[7] = p)) { return true; }
+        if ((cells[2] = p) & (cells[5] = p) & (cells[8] = p)) { return true; }
+        // diagonals
+        if ((cells[0] = p) & (cells[4] = p) & (cells[8] = p)) { return true; }
+        if ((cells[2] = p) & (cells[4] = p) & (cells[6] = p)) { return true; }
+
+        return false;
+    }
+}
+
